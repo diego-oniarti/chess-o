@@ -1,4 +1,5 @@
 var {spawn} = require('child_process');
+require('dotenv').config();
 
 // Discord part
 const { Client, GatewayIntentBits } = require('discord.js');
