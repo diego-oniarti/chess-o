@@ -59,7 +59,7 @@ bot.on('messageCreate', async message => {
     }else if (testo.startsWith("ID move")){
         const righe = testo.split('\n');
         const movetime = righe[2]=="null"?null:righe[2];
-        var move = testo.match(/\w\d\w\d/)?testo.match(/\w\d\w\d/)[0]:undefined;
+        var move = testo.match(/\w\d\w\d\w?/)?testo.match(/\w\d\w\d\w?/)[0]:undefined;
         if (move) moves.push(move)
         stockFish.stdin.write(`position startpos${moves.length>0?' moves '+moves.join(' '):''}\n`);
         console.log(`position startpos${moves.length>0?' moves '+moves.join(' '):''}\n`)
@@ -94,7 +94,7 @@ async function gotMove(){
     });
 
     var interval = setInterval(()=>{
-        if (lastLine.match(/bestmove \w\d\w\d/)){
+        if (lastLine.match(/bestmove \w\d\w\d\w?/)){
             promiseResolve();
             clearInterval(interval);
         }
@@ -106,7 +106,7 @@ async function gotMove(){
 async function go(movetime){
     stockFish.stdin.write(`go movetime ${movetime||5000}\n`);
     await gotMove();
-    return lastLine.match(/bestmove (\w\d\w\d)/)[1];
+    return lastLine.match(/bestmove (\w\d\w\d\w?)/)[1];
 }
 
 
